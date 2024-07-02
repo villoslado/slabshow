@@ -6,17 +6,20 @@ from cards.models import Card
 from django.contrib.auth.decorators import login_required
 from .keys import PSA_API_KEY
 
+BASE_API_URL = "https://api.psacard.com/publicapi/cert/GetByCertNumber"
+IMAGE_API_URL = "https://api.psacard.com/publicapi/cert/GetImagesByCertNumber"
+
 
 def profile_view(request, username):
     user = get_object_or_404(User, username=username)
+
+    profile, created = Profile.objects.get_or_create(user=user)
+
     cards = Card.objects.filter(user=user)
     return render(
         request,
         "profiles/profile.html",
-        {
-            "profile_user": user,
-            "cards": cards,
-        },
+        {"profile_user": user, "cards": cards},
     )
 
 
@@ -26,7 +29,7 @@ def upload_cert_number(request, username):
         cert_number = request.POST["cert_number"]
         user = get_object_or_404(User, username=username)
 
-        url = f"https://api.psacard.com/publicapi/cert/GetByCertNumber/{cert_number}"
+        url = f"{BASE_API_URL}/{cert_number}"
         headers = {
             "Authorization": f"bearer {PSA_API_KEY}",
             "Content-Type": "application/json",
@@ -36,7 +39,7 @@ def upload_cert_number(request, username):
         if response.status_code == 200:
             data = response.json().get("PSACert", {})
 
-            image_url = f"https://api.psacard.com/publicapi/cert/GetImagesByCertNumber/{cert_number}"
+            image_url = f"{IMAGE_API_URL}/{cert_number}"
             image_response = requests.get(image_url, headers=headers)
             images = image_response.json() if image_response.status_code == 200 else {}
 
