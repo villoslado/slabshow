@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}
+    {{ card.title }}
+{% endblock title %}
+{% block content %}
+    <div class="container">
+        <h2>{{ card.title }}</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ card.front_image_url }}"
+                     alt="{{ card.title }}"
+                     class="img-thumbnail">
+            </div>
+            <div class="col-md-6">
+                <img src="{{ card.back_image_url }}"
+                     alt="{{ card.title }} Back"
+                     class="img-thumbnail">
+            </div>
+        </div>
+        <p>{{ card.description }}</p>
+        <ul>
+            <li>
+                <strong>Year:</strong> {{ card.year }}
+            </li>
+            <li>
+                <strong>Brand:</strong> {{ card.brand }}
+            </li>
+            <li>
+                <strong>Category:</strong> {{ card.category }}
+            </li>
+            <li>
+                <strong>Card Number:</strong> {{ card.card_number }}
+            </li>
+            <li>
+                <strong>Subject:</strong> {{ card.subject }}
+            </li>
+            <li>
+                <strong>Variety:</strong> {{ card.variety }}
+            </li>
+            <li>
+                <strong>Grade Description:</strong> {{ card.grade_description }}
+            </li>
+            <li>
+                <strong>Card Grade:</strong> {{ card.card_grade }}
+            </li>
+            <li>
+                <strong>Total Population:</strong> {{ card.total_population }}
+            </li>
+            <li>
+                <strong>Population Higher:</strong> {{ card.population_higher }}
+            </li>
+        </ul>
+    </div>
+{% endblock content %}

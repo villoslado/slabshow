@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}
+    Upload PSA Cert Number
+{% endblock title %}
+{% block content %}
+    <div class="container">
+        <h2>Upload PSA Cert Number</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="cert_number">PSA Cert Number:</label>
+                <input type="text"
+                       class="form-control"
+                       id="cert_number"
+                       name="cert_number"
+                       required>
+            </div>
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+    </div>
+{% endblock content %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}
+    {{ profile_user.username }}'s Profile
+{% endblock title %}
+{% block content %}
+    <div class="container">
+        <h2>{{ profile_user.username }}'s Profile</h2>
+        <p>{{ profile_user.profile.bio }}</p>
+        {% if profile_user.profile.profile_picture %}
+            <img src="{{ profile_user.profile.profile_picture.url }}"
+                 alt="Profile Picture"
+                 class="img-thumbnail"
+                 width="150">
+        {% else %}
+            <img src="/static/default-profile-picture.jpg"
+                 alt="Default Profile Picture"
+                 class="img-thumbnail"
+                 width="150">
+        {% endif %}
+        <h3>My Cards</h3>
+        <div class="row">
+            {% for card in cards %}
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <img src="{{ card.front_image_url }}"
+                             class="card-img-top"
+                             alt="{{ card.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ card.title }}</h5>
+                            <p class="card-text">{{ card.description }}</p>
+                            <a href="{% url 'card_detail' card.id %}" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <a href="{% url 'upload_cert_number' profile_user.username %}"
+           class="btn btn-secondary">Upload PSA Cert Number</a>
+    </div>
+{% endblock content %}
