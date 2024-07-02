@@ -1,4 +1,5 @@
 import requests
+import logging
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -6,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 from .models import Profile
 from .keys import PSA_API_KEY
 from cards.models import Card
+
+logger = logging.getLogger(__name__)
 
 BASE_API_URL = "https://api.psacard.com/publicapi/cert/GetByCertNumber"
 IMAGE_API_URL = "https://api.psacard.com/publicapi/cert/GetImagesByCertNumber"
@@ -79,11 +82,13 @@ def upload_cert_number(request, username):
             return redirect("profile", username=username)
 
         except requests.RequestException as e:
+            logger.error(f"RequestException: {str(e)}")
             messages.error(
                 request,
                 f"An error occurred while fetching card data: {str(e)}",
             )
         except Exception as e:
+            logger.error(f"Exception: {str(e)}")
             messages.error(request, f"An unexpected error occurred: {str(e)}")
 
     return render(request, "profiles/upload_cert_number.html")

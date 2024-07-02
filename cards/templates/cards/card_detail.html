@@ -58,5 +58,6 @@
                 <strong>Population Higher:</strong> {{ card.population_higher }}
             </li>
         </ul>
+        <a href="{% url 'delete_card' card.id %}" class="btn btn-danger">Delete</a>
     </div>
 {% endblock content %}
