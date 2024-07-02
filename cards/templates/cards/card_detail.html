@@ -7,14 +7,22 @@
         <h2>{{ card.title }}</h2>
         <div class="row">
             <div class="col-md-6">
-                <img src="{{ card.front_image_url }}"
-                     alt="{{ card.title }}"
-                     class="img-thumbnail">
+                {% if card.front_image_url %}
+                    <img src="{{ card.front_image_url }}"
+                         alt="{{ card.title }}"
+                         class="img-thumbnail">
+                {% else %}
+                    <p>No front image available</p>
+                {% endif %}
             </div>
             <div class="col-md-6">
-                <img src="{{ card.back_image_url }}"
-                     alt="{{ card.title }} Back"
-                     class="img-thumbnail">
+                {% if card.back_image_url %}
+                    <img src="{{ card.back_image_url }}"
+                         alt="{{ card.title }} Back"
+                         class="img-thumbnail">
+                {% else %}
+                    <p>No back image available</p>
+                {% endif %}
             </div>
         </div>
         <p>{{ card.description }}</p>
