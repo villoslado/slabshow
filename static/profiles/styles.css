@@ -1,0 +1,23 @@
+/* Styles for profile thumbnails */
+.small-thumbnail {
+    width: 200px;
+    height: auto;
+}
+
+/* Main image in card detail view */
+.main-image img {
+    width: 61%;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Thumbnail images in card detail view */
+.thumbnail-images img {
+    width: 30%;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.custom-placeholder::placeholder {
+    font-size: 0.875rem; /* This is 14px, adjust as needed */
+}

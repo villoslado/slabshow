@@ -1,63 +1,84 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}
-    {{ card.title }}
+    SlabShow – {{ card.year }} {{ card.title|title }}
 {% endblock title %}
 {% block content %}
     <div class="container">
-        <h2>{{ card.title }}</h2>
         <div class="row">
             <div class="col-md-6">
-                {% if card.front_image_url %}
-                    <img src="{{ card.front_image_url }}"
+                <div class="main-image mb-4">
+                    <img id="displayed-image"
+                         src="{{ card.front_image_url }}"
                          alt="{{ card.title }}"
-                         class="img-thumbnail">
-                {% else %}
-                    <p>No front image available</p>
-                {% endif %}
+                         class="img-fluid">
+                </div>
+                <div class="thumbnail-images">
+                    <img id="front-image-thumbnail"
+                         src="{{ card.front_image_url }}"
+                         alt="Front Image"
+                         class="img-thumbnail"
+                         style="cursor: pointer;
+                                width: 30%">
+                    <img id="back-image-thumbnail"
+                         src="{{ card.back_image_url }}"
+                         alt="Back Image"
+                         class="img-thumbnail"
+                         style="cursor: pointer;
+                                width: 30%">
+                </div>
             </div>
             <div class="col-md-6">
-                {% if card.back_image_url %}
-                    <img src="{{ card.back_image_url }}"
-                         alt="{{ card.title }} Back"
-                         class="img-thumbnail">
-                {% else %}
-                    <p>No back image available</p>
-                {% endif %}
+                <h2>{{ card.title|title }}</h2>
+                <p>{{ card.description }}</p>
+                <ul class="list-unstyled">
+                    <li>
+                        <strong>Year:</strong> {{ card.year }}
+                    </li>
+                    <li>
+                        <strong>Brand:</strong> {{ card.brand }}
+                    </li>
+                    <li>
+                        <strong>Card Number:</strong> {{ card.card_number }}
+                    </li>
+                    <li>
+                        <strong>Subject:</strong> {{ card.subject }}
+                    </li>
+                    <li>
+                        <strong>Category:</strong> {{ card.category }}
+                    </li>
+                    {% if card.variety %}
+                        <li>
+                            <strong>Variety:</strong> {{ card.variety }}
+                        </li>
+                    {% endif %}
+                    <li>
+                        <strong>Card Grade:</strong> {{ card.card_grade }}
+                    </li>
+                    <li>
+                        <strong>Total Population:</strong> {{ card.total_population }}
+                    </li>
+                    <li>
+                        <strong>Population Higher:</strong> {{ card.population_higher }}
+                    </li>
+                </ul>
+                <a href="{% url 'delete_card' card.id %}" class="btn btn-danger">Delete</a>
             </div>
         </div>
-        <p>{{ card.description }}</p>
-        <ul>
-            <li>
-                <strong>Year:</strong> {{ card.year }}
-            </li>
-            <li>
-                <strong>Brand:</strong> {{ card.brand }}
-            </li>
-            <li>
-                <strong>Category:</strong> {{ card.category }}
-            </li>
-            <li>
-                <strong>Card Number:</strong> {{ card.card_number }}
-            </li>
-            <li>
-                <strong>Subject:</strong> {{ card.subject }}
-            </li>
-            <li>
-                <strong>Variety:</strong> {{ card.variety }}
-            </li>
-            <li>
-                <strong>Grade Description:</strong> {{ card.grade_description }}
-            </li>
-            <li>
-                <strong>Card Grade:</strong> {{ card.card_grade }}
-            </li>
-            <li>
-                <strong>Total Population:</strong> {{ card.total_population }}
-            </li>
-            <li>
-                <strong>Population Higher:</strong> {{ card.population_higher }}
-            </li>
-        </ul>
-        <a href="{% url 'delete_card' card.id %}" class="btn btn-danger">Delete</a>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const displayedImage = document.getElementById('displayed-image');
+            const frontImageThumbnail = document.getElementById('front-image-thumbnail');
+            const backImageThumbnail = document.getElementById('back-image-thumbnail');
+
+            frontImageThumbnail.addEventListener('click', function () {
+                displayedImage.src = frontImageThumbnail.src;
+            });
+
+            backImageThumbnail.addEventListener('click', function () {
+                displayedImage.src = backImageThumbnail.src;
+            });
+        });
+    </script>
 {% endblock content %}

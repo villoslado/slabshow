@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}
-    {{ profile_user.username }}'s Profile
+    SlabShow – {{ profile_user.username }}
 {% endblock title %}
 {% block content %}
     <div class="container">
@@ -12,29 +12,68 @@
                  class="img-thumbnail"
                  width="150">
         {% else %}
-            <img src="/static/default-profile-picture.jpg"
-                 alt="Default Profile Picture"
-                 class="img-thumbnail"
-                 width="150">
+            {% comment %} <img src="{% static 'profiles/default-profile-picture.webp' %}" alt="Default Profile Picture" class="img-thumbnail" width="150"> {% endcomment %}
         {% endif %}
-        <h3>My Cards</h3>
-        <div class="row">
-            {% for card in cards %}
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <img src="{{ card.front_image_url }}"
-                             class="card-img-top"
-                             alt="{{ card.title }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ card.title }}</h5>
-                            <p class="card-text">{{ card.description }}</p>
-                            <a href="{% url 'card_detail' card.id %}" class="btn btn-primary">View Details</a>
+        <div>
+            <a href="{% url 'upload_cert_number' profile_user.username %}"
+               class="btn btn-secondary mb-3">Upload PSA Cert Number</a>
+            <button id="view-thumbnail" class="btn btn-info mb-3">Thumbnail View</button>
+            <button id="view-list" class="btn btn-info mb-3">List View</button>
+        </div>
+        <form method="GET"
+              action="{% url 'profile' profile_user.username %}"
+              class="form-inline mb-3">
+            <input type="text"
+                   name="search"
+                   value="{{ search_query }}"
+                   class="form-control mr-2 custom-placeholder"
+                   placeholder="Search within your collection...">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        <h3>Collection</h3>
+        {% if not cards %}
+            <p>No cards found matching your search criteria.</p>
+        {% else %}
+            <div class="row" id="thumbnail-view">
+                {% for card in cards %}
+                    <div class="col-md-3">
+                        <div class="card mb-4 shadow-sm">
+                            <img src="{{ card.front_image_url }}"
+                                 class="card-img-top small-thumbnail"
+                                 alt="{{ card.title }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ card.title|title }}</h5>
+                                <p class="card-text text-muted small">{{ card.card_grade }}</p>
+                                <a href="{% url 'card_detail' card.id %}" class="btn btn-primary">View Details</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
-        </div>
-        <a href="{% url 'upload_cert_number' profile_user.username %}"
-           class="btn btn-secondary">Upload PSA Cert Number</a>
+                {% endfor %}
+            </div>
+            <div class="list-group" id="list-view" style="display: none;">
+                {% for card in cards %}
+                    <a href="{% url 'card_detail' card.id %}"
+                       class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ card.title|title }}</h5>
+                            <small>{{ card.card_grade }}</small>
+                        </div>
+                        <p class="mb-1">{{ card.year }} - {{ card.brand }}</p>
+                        <small>{{ card.category }}</small>
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
+    <script>
+        document.getElementById('view-thumbnail').addEventListener('click', function() {
+            document.getElementById('thumbnail-view').style.display = 'flex';
+            document.getElementById('list-view').style.display = 'none';
+        });
+
+        document.getElementById('view-list').addEventListener('click', function() {
+            document.getElementById('thumbnail-view').style.display = 'none';
+            document.getElementById('list-view').style.display = 'block';
+        });
+    </script>
 {% endblock content %}
