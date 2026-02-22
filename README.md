@@ -1,4 +1,4 @@
-# SlabShow 📈💎
+# SlabShow 📈
 
 Welcome to SlabShow, the web application designed for managing and showcasing portfolios of graded sports and trading cards.
 
@@ -30,10 +30,6 @@ Whether you're a collector managing a personal collection or a store looking to 
 1. Sign up to create your profile.
 2. Start adding your graded cards using PSA certification numbers.
 3. Explore your collection with dynamic views and detailed insights.
-
-## Join Us!
-
-Be part of the SlabShow community. Sign up today to experience a new level of inventory management.
 
 ---
 
